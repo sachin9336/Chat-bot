@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chat Bot</title>
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-image: url('img.avif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.chat-container {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  width: 50%;
+  max-width: 600px;
+  min-width: 300px;
+}
+
+.chat-header {
+  text-align: center;
+  border-bottom: 2px solid rgb(230, 17, 17);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.chat-header img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-bottom: 10px;
+}
+
+.chat-header h2 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+#chatArea {
+  max-height: 400px;
+  overflow-y: auto;
+  margin-bottom: 20px;
+}
+
+.message {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 10px;
+}
+
+.user-message, .chatbot-message {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 15px;
+  position: relative;
+}
+
+.user-message {
+  background-color: aqua;
+  align-self: flex-end;
+  border: 2px solid white;
+}
+
+.chatbot-message {
+  background-color: green;
+  color: white;
+  border: 2px solid rgb(162, 244, 46);
+}
+
+.message img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-input {
+  display: flex;
+  justify-content: space-between;
+}
+
+#userInput {
+  background-color: white;
+  font-size: 1rem;
+  height: 40px;
+  flex-grow: 1;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  padding: 0 10px;
+}
+
+#sendButton {
+  background-color: green;
+  font-size: 1.5rem;
+  border: 2px solid red;
+  color: white;
+  border-radius: 20px;
+  padding: 0 20px;
+  margin-left: 10px;
+}
+
+#sendButton:hover {
+  background-color: red;
+  color: white;
+  border-color: rgb(29, 241, 64);
+}
+
+.auto-type {
+  width: 100%;
+  text-align: center;
+  font-family: poppins, sans-serif;
+  color: rgb(255, 161, 47);
+  background-color: #a6f0f0;
+  font-size: 1.5rem;
+  margin: 10px 0;
+}
+</style>
+</head>
+<body>
+<div class="chat-container">
+  <div class="chat-header">
+    <img id="ds" src="bot.avif" alt="Profile">
+    <h2>Chat Bot</h2>
+    <div class="d">
+    </div>
+  </div>
+  <div id="chatArea" class="chat-area"></div>
+  <div class="user-input">
+    <input type="text" id="userInput" placeholder="Type your message..." autofocus>
+    <button id="sendButton">Send</button>
+  </div>
+</div>
+<script src="script.js"></script>
+<script>
+const chatArea = document.getElementById('chatArea');
+const userInput = document.getElementById('userInput');
+const sendButton = document.getElementById('sendButton');
+
+function appendMessage(sender, message) {
+  const messageElement = document.createElement('div');
+  messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'chatbot-message');
+
+  const profileImg = document.createElement('img');
+  profileImg.src = sender === 'user' ? 'user.png' : 'bot.avif'; 
+  messageElement.appendChild(profileImg);
+  const textElement = document.createElement('div');
+  textElement.textContent = message;
+  messageElement.appendChild(textElement);
+
+  chatArea.appendChild(messageElement);
+}
+
+function generateResponse(message) {
+  const lowerCaseMessage = message.toLowerCase();
+  if (lowerCaseMessage === 'hello') {
+    return 'Hello! How may I assist you today?';
+  } else if (lowerCaseMessage.includes('help')) {
+    return 'Sure, I can help you. What do you need assistance with?';
+  } else if (lowerCaseMessage.includes('weather')) {
+    return 'The weather is sunny and warm today.';
+  } else if (lowerCaseMessage.includes('time')) {
+    const currentTime = new Date().toLocaleTimeString();
+    return 'The current time is ' + currentTime + '.';
+  } else if (lowerCaseMessage.includes('thank you')) {
+    return "You're welcome! Feel free to ask if you have any more questions.";
+  } else if (lowerCaseMessage.includes('bye') || lowerCaseMessage.includes('goodbye')) {
+    return 'Goodbye! Have a great day!';
+  } else if (lowerCaseMessage.includes("how are you")) {
+    return "I am good.";
+  } else if (lowerCaseMessage.includes("tell me your name")) {
+    return "I am a chat bot.";
+  } else if (lowerCaseMessage.includes("joke")) {
+    return "Why don’t scientists trust atoms? Because they make up everything.";
+  } else {
+    return "Sorry, I didn't understand that.";
+  }
+}
+
+function sendMessage() {
+  const message = userInput.value;
+  if (message.trim() !== '') {
+    appendMessage('user', message);
+    const response = generateResponse(message);
+    appendMessage('chatbot', response);
+    userInput.value = '';
+    chatArea.scrollTop = chatArea.scrollHeight;
+  }
+}
+
+sendButton.addEventListener('click', sendMessage);
+userInput.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    sendMessage();
+  }
+});
+</script>
+</body>
+</html>
