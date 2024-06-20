@@ -26,9 +26,8 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 20px;
-  width: 50%;
+  width: 80%;
   max-width: 600px;
-  min-width: 300px;
 }
 
 .chat-header {
@@ -52,7 +51,7 @@ body {
 }
 
 #chatArea {
-  max-height: 400px;
+  max-height: 300px;
   overflow-y: auto;
   margin-bottom: 20px;
 }
@@ -91,14 +90,16 @@ body {
 
 .user-input {
   display: flex;
+  align-items: center;
   justify-content: space-between;
+  margin-top: 10px;
 }
 
 #userInput {
+  flex-grow: 1;
   background-color: white;
   font-size: 1rem;
   height: 40px;
-  flex-grow: 1;
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 0 10px;
@@ -163,6 +164,7 @@ function appendMessage(sender, message) {
   messageElement.appendChild(textElement);
 
   chatArea.appendChild(messageElement);
+  chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom of chatArea
 }
 
 function generateResponse(message) {
@@ -198,7 +200,6 @@ function sendMessage() {
     const response = generateResponse(message);
     appendMessage('chatbot', response);
     userInput.value = '';
-    chatArea.scrollTop = chatArea.scrollHeight;
   }
 }
 
