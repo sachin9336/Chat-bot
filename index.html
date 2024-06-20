@@ -95,18 +95,20 @@ body {
 
 .user-input {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   width: 100%;
+  align-items: center;
 }
 
 #userInput {
   background-color: white;
   font-size: 1rem;
   height: 40px;
-  flex-grow: 1;
+  width: 100%;
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 0 10px;
+  margin-bottom: 10px;
 }
 
 #sendButton {
@@ -116,10 +118,10 @@ body {
   color: white;
   border-radius: 20px;
   padding: 0 20px;
-  margin-left: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 20%;
 }
 
 #sendButton:hover {
