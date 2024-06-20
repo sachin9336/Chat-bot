@@ -26,8 +26,11 @@ body {
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   padding: 20px;
-  width: 80%;
+  width: 90%;
   max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .chat-header {
@@ -36,6 +39,7 @@ body {
   padding-bottom: 10px;
   margin-bottom: 20px;
   color: #333;
+  width: 100%;
 }
 
 .chat-header img {
@@ -51,9 +55,10 @@ body {
 }
 
 #chatArea {
-  max-height: 300px;
+  max-height: 400px;
   overflow-y: auto;
   margin-bottom: 20px;
+  width: 100%;
 }
 
 .message {
@@ -90,16 +95,15 @@ body {
 
 .user-input {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
+  width: 100%;
 }
 
 #userInput {
-  flex-grow: 1;
   background-color: white;
   font-size: 1rem;
   height: 40px;
+  flex-grow: 1;
   border: 1px solid #ccc;
   border-radius: 20px;
   padding: 0 10px;
@@ -107,12 +111,15 @@ body {
 
 #sendButton {
   background-color: green;
-  font-size: 1.5rem;
+  font-size: 1rem;
   border: 2px solid red;
   color: white;
   border-radius: 20px;
   padding: 0 20px;
   margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #sendButton:hover {
@@ -138,7 +145,17 @@ body {
     <img id="ds" src="bot.avif" alt="Profile">
     <h2>Chat Bot</h2>
     <div class="d">
+      <span class="auto-type"></span>
     </div>
+    <script src="https://unpkg.com/typed.js@2.0.16/dist/typed.umd.js"></script>
+    <script>
+      var typed = new Typed(".auto-type", {
+        strings: ["Advice", "Information", "Conversation", "Help"],
+        typeSpeed: 150,
+        backSpeed: 150,
+        loop: true
+      });
+    </script>
   </div>
   <div id="chatArea" class="chat-area"></div>
   <div class="user-input">
@@ -157,14 +174,14 @@ function appendMessage(sender, message) {
   messageElement.classList.add('message', sender === 'user' ? 'user-message' : 'chatbot-message');
 
   const profileImg = document.createElement('img');
-  profileImg.src = sender === 'user' ? 'user.png' : 'bot.avif'; 
+  profileImg.src = sender === 'user' ? 'user.png' : 'bot.avif'; // Change this to actual image URLs
+
   messageElement.appendChild(profileImg);
   const textElement = document.createElement('div');
   textElement.textContent = message;
   messageElement.appendChild(textElement);
 
   chatArea.appendChild(messageElement);
-  chatArea.scrollTop = chatArea.scrollHeight; // Scroll to bottom of chatArea
 }
 
 function generateResponse(message) {
@@ -200,6 +217,7 @@ function sendMessage() {
     const response = generateResponse(message);
     appendMessage('chatbot', response);
     userInput.value = '';
+    chatArea.scrollTop = chatArea.scrollHeight;
   }
 }
 
